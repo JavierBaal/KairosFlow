@@ -27,3 +27,7 @@ Thumbs.db
 .vscode
 *.swp
 *.swo
+
+/memory-bank/
+.clinerules
+/rules/
