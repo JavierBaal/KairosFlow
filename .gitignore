@@ -9,6 +9,7 @@ pnpm-debug.log*
 memory-bank/
 .clinerules/
 rules/
+4Read/
 
 # Directorios de logs
 logs/
