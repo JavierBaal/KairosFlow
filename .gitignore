@@ -5,11 +5,12 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Directorios de memoria y reglas (invisibles en GitHub)
-memory-bank/
-.clinerules/
-rules/
-4Read/
+# Archivos de sistema y configuración
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
 # Directorios de logs
 logs/
@@ -35,13 +36,6 @@ coverage/
 dist/
 build/
 out/
-
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
 
 # OS generated files
 .DS_Store
