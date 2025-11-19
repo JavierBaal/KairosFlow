@@ -8,6 +8,7 @@ pnpm-debug.log*
 # Directorios de memoria y reglas (invisibles en GitHub)
 memory-bank/
 .clinerules/
+rules/
 
 # Directorios de logs
 logs/
