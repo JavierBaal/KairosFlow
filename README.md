@@ -276,7 +276,7 @@ Support:
 **Javier Baal**  
 
 - GitHub: [@javierbaal](https://github.com/javierbaal)  
-- X / Twitter: [@javierbaal](https://twitter.com/javierbaal)  
+- X / Twitter: [@javierbaal00](https://twitter.com/javierbaal00)  
 
 ---
 
