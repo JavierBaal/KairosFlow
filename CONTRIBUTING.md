@@ -168,9 +168,9 @@ Use clear, descriptive commit messages:
 
 ## Questions?
 
-- 💬 Ask in [Discussions](https://github.com/javierbaal/multi-agent-prompt-framework/discussions)
-- 🐦 Tweet [@javierbaal](https://twitter.com/javierbaal)
-- 📧 Email: hello@javierbaal.com
+- 💬 Ask in [Discussions](https://github.com/JavierBaal/KairosFlow/discussions)
+- 🐦 Follow [@javierbaal00](https://x.com/javierbaal00)
+- 📧 Email: [javierbaal@kairoswp.com](mailto:javierbaal@kairoswp.com)
 
 ---
 

@@ -4,7 +4,7 @@
 > Core architecture powering two production-grade platforms: **Kairos Creative** (Marketing) and **Kairos WP** (Software Development).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub Stars](https://img.shields.io/github/stars/javierbaal/multi-agent-prompt-framework?style=social)](https://github.com/javierbaal/multi-agent-prompt-framework)
+[![GitHub Stars](https://img.shields.io/github/stars/JavierBaal/KairosFlow?style=social)](https://github.com/JavierBaal/KairosFlow)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 ---
@@ -31,7 +31,7 @@ KAIROS FLOW is built on three non‑negotiable principles:
 
 ### 1. Henry Ford Principle – One Agent, One Job
 
-Instead of one giant “god prompt” that tries to do everything, each agent has a **single, sharply defined responsibility** (PM, Architect, Developer, QA, etc.).  
+Instead of one giant "god prompt" that tries to do everything, each agent has a **single, sharply defined responsibility** (PM, Architect, Developer, QA, etc.).  
 
 Result:  
 - Smaller prompts  
@@ -85,23 +85,23 @@ Result:
 
 At a high level, a KAIROS FLOW pipeline looks like this:
 
+```
 User Request
-↓
+    ↓
 [Context Orchestrator]
-↓
+    ↓
 [Agent Pipeline]
-↓
+    ↓
 ┌─────────────┐ ┌───────────────┐ ┌─────────────┐
 │ Agent 001 │ → │ Agent 002 │ → │ Agent 003 │
 │ (PM / Spec) │ │ (Architect) │ │ (Dev) │
 └─────────────┘ └───────────────┘ └─────────────┘
-↓ ↓ ↓
-[Artifact] [Artifact] [Artifact]
+    ↓            ↓            ↓
+[Artifact]   [Artifact]   [Artifact]
 └────────────────────┬────────────────────┘
-↓
+    ↓
 [Final Output]
-
-text
+```
 
 Core building blocks:
 
@@ -110,7 +110,7 @@ Core building blocks:
 3. **Orchestrator** – Controls ordering, dependencies, and context injection.  
 
 For a full deep dive, see:  
-👉 `docs/architecture.md`  
+👉 [`docs/architecture.md`](docs/architecture.md)  
 
 ---
 
@@ -120,7 +120,7 @@ There are two main ways to start using KAIROS FLOW: **conceptual template** and 
 
 ### Option 1: Use the Software Development Template
 
-1. Open: `templates/software-development-pipeline.md`  
+1. Open: [`templates/software-development-pipeline.md`](templates/software-development-pipeline.md)  
 2. Copy the agent prompts and responsibilities.  
 3. Adapt them to your stack (Node, Python, PHP, etc.).  
 4. Run the pipeline manually in your LLM of choice (Claude, GPT‑4, DeepSeek, etc.).  
@@ -133,16 +133,16 @@ This is the fastest way to internalize the **Henry Ford + Orchestrator + Artifac
 
 Clone the repo:
 
-git clone https://github.com/javierbaal/multi-agent-prompt-framework.git
-cd multi-agent-prompt-framework
-
-text
+```bash
+git clone https://github.com/JavierBaal/KairosFlow.git
+cd KairosFlow
+```
 
 Explore the examples:
 
-- `examples/basic/two-agent-content.md` – Simple 2‑agent content pipeline.  
-- `examples/intermediate/` – 5‑agent pipelines (content + QA, etc.).  
-- `examples/advanced/` – Full software pipelines (including Kairos WP case study).  
+- [`examples/basic/two-agent-content.md`](examples/basic/two-agent-content.md) – Simple 2‑agent content pipeline.  
+- [`examples/intermediate/`](examples/intermediate/) – 5‑agent pipelines (content + QA, etc.).  
+- [`examples/advanced/`](examples/advanced/) – Full software pipelines (including Kairos WP case study).  
 
 Use them as blueprints to build your own system.  
 
@@ -185,19 +185,51 @@ These case studies prove that **the same framework** can handle both:
 
 ## 📚 Documentation
 
-Recommended reading order:
+### Essential Reading (Recommended Order)
 
-1. `docs/getting-started.md`  
+1. **[Understanding KairosFlow](docs/Understanding_KairosFlow.md)**  
+   - Conceptual explanation with analogies  
+   - How the "assembly line" for AI works  
+   - Perfect introduction for decision makers  
+
+2. **[Viability Report](docs/Viability-Report_KairosFlow-Framework_vs_Monolithic-AI-Approaches.md)**  
+   - Strategic analysis vs monolithic approaches  
+   - Production evidence and ROI metrics  
+   - Implementation roadmap  
+
+3. **[Technical Proposal](docs/Adoption-of-KairosFlow-for-Managing-Complex-AI-Systems.md)**  
+   - Detailed implementation guide  
+   - Architecture fundamentals  
+   - Technical team reference  
+
+4. **[Getting Started Guide](docs/getting-started.md)**  
    - Core concepts  
    - First 2–3 agent pipeline  
-2. `docs/architecture.md`  
+   - Step-by-step tutorial  
+
+5. **[Architecture Documentation](docs/architecture.md)**  
    - Full Henry Ford breakdown  
    - GranularArtifactStandard v1.0.0  
    - Context Orchestrator internals  
-3. `templates/software-development-pipeline.md`  
+
+6. **[Software Development Template](templates/software-development-pipeline.md)**  
    - 10‑agent software pipeline template  
-4. `examples/`  
-   - From basic to advanced, including Kairos WP.  
+   - Copy-paste ready prompts  
+
+7. **[Best Practices](docs/best-practices.md)**  
+   - Proven patterns and recommendations  
+   - Real-world implementation tips  
+
+8. **[Anti-Patterns to Avoid](docs/anti-patterns.md)**  
+   - Common mistakes and how to prevent them  
+   - Debugging strategies  
+
+9. **[Core Concepts](docs/core-concepts.md)**  
+   - Deep dive into framework fundamentals  
+   - Advanced architecture patterns  
+
+10. **[Examples Directory](examples/)**  
+    - From basic to advanced, including Kairos WP case study
 
 ---
 
@@ -209,7 +241,7 @@ Recommended reading order:
 - AG002 – Writer  
 - AG003 – Editor  
 
-Use: `examples/basic/two-agent-content.md` as starting point and add an editor agent.  
+Use: [`examples/basic/two-agent-content.md`](examples/basic/two-agent-content.md) as starting point and add an editor agent.  
 
 ---
 
@@ -226,7 +258,7 @@ Use: `examples/basic/two-agent-content.md` as starting point and add an editor a
 - AG009 – Documentation Writer  
 - AG010 – DevOps Engineer  
 
-Use: `templates/software-development-pipeline.md` + `examples/advanced/`.  
+Use: [`templates/software-development-pipeline.md`](templates/software-development-pipeline.md) + [`examples/advanced/`](examples/advanced/).  
 
 ---
 
@@ -241,7 +273,7 @@ Contributions are very welcome:
 
 Before opening a PR, please read:  
 
-👉 `CONTRIBUTING.md`  
+👉 [`CONTRIBUTING.md`](CONTRIBUTING.md)  
 
 ---
 
@@ -256,18 +288,20 @@ You can:
 - ✅ Distribute it.  
 - ✅ Embed it into your own products.  
 
-See `LICENSE` for full details.  
+See [`LICENSE`](LICENSE) for full details.  
 
 ---
 
 ## 💬 Support & Community
 
-- 🐛 Issues: GitHub **Issues** tab  
-- 💡 Ideas & Q&A: GitHub **Discussions**  
-- 🔔 Updates: Follow `@javierbaal` on X  
+- 🐛 **Issues:** [GitHub Issues](https://github.com/JavierBaal/KairosFlow/issues)  
+- 💡 **Ideas & Q&A:** [GitHub Discussions](https://github.com/JavierBaal/KairosFlow/discussions)  
+- 🔔 **Updates:** Follow [@javierbaal](https://twitter.com/javierbaal00) on X  
 
-Support:  
-[GitHub Discussions](https://github.com/javierbaal/multi-agent-prompt-framework/discussions)  
+### Support Resources:
+- **📖 [Documentation Index](docs/)** - Complete documentation suite
+- **🗣️ [GitHub Discussions](https://github.com/JavierBaal/KairosFlow/discussions)** - Community Q&A
+- **🐛 [Issue Tracker](https://github.com/JavierBaal/KairosFlow/issues)** - Bug reports and feature requests
 
 ---
 
@@ -275,7 +309,7 @@ Support:
 
 **Javier Baal**  
 
-- GitHub: [@javierbaal](https://github.com/javierbaal)  
+- GitHub: [@JavierBaal](https://github.com/JavierBaal)  
 - X / Twitter: [@javierbaal00](https://twitter.com/javierbaal00)  
 
 ---
@@ -284,8 +318,10 @@ Support:
 
 **If KAIROS FLOW helps you ship better systems, consider:**
 
-⭐ Starring the repo • 🧩 Sharing your pipelines in Discussions • ☕ Sponsoring future work  
+⭐ **Starring the repo** • 🧩 **Sharing your pipelines in Discussions** • ☕ **Sponsoring future work**  
 
 **Built with ❤️ by the creator of Kairos Creative and Kairos WP.**  
+
+**[⭐ Star on GitHub](https://github.com/JavierBaal/KairosFlow)** | **[📖 Read the Docs](docs/Understanding_KairosFlow.md)** | **[🚀 Get Started](docs/getting-started.md)**
 
 </div>
