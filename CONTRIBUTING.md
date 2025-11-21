@@ -32,7 +32,7 @@ Examples of behavior that contributes to a positive environment:
 
 Found a bug? Here's how to report it:
 
-1. Check if the bug has already been reported in [Issues](https://github.com/javierbaal/multi-agent-prompt-framework/issues)
+1. Check if the bug has already been reported in [Issues](https://github.com/JavierBaal/KairosFlow/issues)
 2. If not, create a new issue with:
    - Clear title and description
    - Steps to reproduce
@@ -44,7 +44,7 @@ Found a bug? Here's how to report it:
 
 Have an idea? We'd love to hear it!
 
-1. Check [Discussions](https://github.com/javierbaal/multi-agent-prompt-framework/discussions) first
+1. Check [Discussions](https://github.com/JavierBaal/KairosFlow/discussions) first
 2. Open a feature request with:
    - Problem you're trying to solve
    - Proposed solution
@@ -80,8 +80,8 @@ Share your implementation!
 
 ```
 # Fork the repo on GitHub, then:
-git clone https://github.com/YOUR_USERNAME/multi-agent-prompt-framework.git
-cd multi-agent-prompt-framework
+git clone https://github.com/YOUR_USERNAME/KairosFlow.git
+cd KairosFlow
 ```
 
 ### Create a Branch

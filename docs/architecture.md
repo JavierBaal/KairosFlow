@@ -252,4 +252,4 @@ Three levels:
 
 ---
 
-**Questions?** Ask in [Discussions](https://github.com/javierbaal/multi-agent-prompt-framework/discussions)!
+**Questions?** Ask in [Discussions](https://github.com/JavierBaal/KairosFlow/discussions)!

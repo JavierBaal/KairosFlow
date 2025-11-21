@@ -211,9 +211,9 @@ User: "Write a blog post about AI in healthcare"
 
 ### Get Help
 
-- 💬 [GitHub Discussions](https://github.com/javierbaal/multi-agent-prompt-framework/discussions)
-- 🐛 [Report Issues](https://github.com/javierbaal/multi-agent-prompt-framework/issues)
-- 🐦 [Follow @javierbaal](https://twitter.com/javierbaal)
+- 💬 [GitHub Discussions](https://github.com/JavierBaal/KairosFlow/discussions)
+- 🐛 [Report Issues](https://github.com/JavierBaal/KairosFlow/issues)
+- 🐦 [Follow @javierbaal00](https://x.com/javierbaal00)
 
 ---
 
@@ -248,4 +248,4 @@ Start with a simple problem and apply the framework. You'll see immediate result
 
 ---
 
-**Questions?** Ask in [Discussions](https://github.com/javierbaal/multi-agent-prompt-framework/discussions)!
+**Questions?** Ask in [Discussions](https://github.com/JavierBaal/KairosFlow/discussions)!

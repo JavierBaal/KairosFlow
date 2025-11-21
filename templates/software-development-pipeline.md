@@ -1334,7 +1334,7 @@ This template has been successfully used for:
 2. **Measure Results:** Track token usage and success rate
 3. **Scale Up:** Add more agents as needed
 4. **Share Results:** Contribute your case study to the community
-5. **Get Help:** Ask questions in [Discussions](https://github.com/javierbaal/multi-agent-prompt-framework/discussions)
+5. **Get Help:** Ask questions in [Discussions](https://github.com/JavierBaal/KairosFlow/discussions)
 
 ---
 
@@ -1386,7 +1386,7 @@ Found a way to improve this template? We'd love your input!
    - [Read case study](../../examples/advanced/kairos-wp-case-study.md)
 
 2. **Your project here!**
-   - [Submit your success story](https://github.com/javierbaal/multi-agent-prompt-framework/discussions/categories/showcase)
+   - [Submit your success story](https://github.com/JavierBaal/KairosFlow/discussions/categories/showcase)
 
 ---
 

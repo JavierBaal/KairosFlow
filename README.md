@@ -296,7 +296,7 @@ See [`LICENSE`](LICENSE) for full details.
 
 - 🐛 **Issues:** [GitHub Issues](https://github.com/JavierBaal/KairosFlow/issues)  
 - 💡 **Ideas & Q&A:** [GitHub Discussions](https://github.com/JavierBaal/KairosFlow/discussions)  
-- 🔔 **Updates:** Follow [@javierbaal](https://twitter.com/javierbaal00) on X  
+- 🔔 **Updates:** Follow [@javierbaal00](https://x.com/javierbaal00) on X  
 
 ### Support Resources:
 - **📖 [Documentation Index](docs/)** - Complete documentation suite
@@ -309,8 +309,11 @@ See [`LICENSE`](LICENSE) for full details.
 
 **Javier Baal**  
 
-- GitHub: [@JavierBaal](https://github.com/JavierBaal)  
-- X / Twitter: [@javierbaal00](https://twitter.com/javierbaal00)  
+- GitHub: [@JavierBaal](https://github.com/JavierBaal)
+- X / Twitter: [@javierbaal00](https://x.com/javierbaal00)
+- Website: [kairoswp.com](https://kairoswp.com)
+- Email: <javierbaal@kairoswp.com>
+- Reddit: [u/JFerzt](https://www.reddit.com/user/JFerzt/)  
 
 ---
 

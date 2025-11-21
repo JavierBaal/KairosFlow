@@ -43,7 +43,7 @@ export const initProject = async () => {
     await fs.ensureDir(path.join(projectPath, 'agents'));
     await fs.ensureDir(path.join(projectPath, 'artifacts'));
     await fs.ensureDir(path.join(projectPath, 'context'));
-    
+
     // Create config file
     const config = {
       projectName: answers.projectName,
@@ -51,7 +51,7 @@ export const initProject = async () => {
       template: answers.template,
       created_at: new Date().toISOString()
     };
-    
+
     await fs.writeJSON(path.join(projectPath, 'kairos.config.json'), config, { spaces: 2 });
 
     // Create Default Agent (Agent 001)
@@ -62,10 +62,10 @@ export const initProject = async () => {
     await fs.writeFile(path.join(projectPath, 'README.md'), `# ${answers.projectName}\n\nGenerated with KAIROS FLOW CLI.\n\n## Run Pipeline\nUse 'kairos run' to start.`);
 
     spinner.succeed(chalk.green('Project initialized successfully!'));
-    
+
     console.log(`\nNext steps:\n`);
     console.log(chalk.cyan(`  cd ${answers.projectName}`));
-    console.log(chalk.cyan(`  kairos validate agents/001-product-manager.md`));
+    console.log(chalk.cyan(`  kairos run`));
     console.log(chalk.yellow(`\n  Modify 'agents/001-product-manager.md' to fit your needs.\n`));
 
   } catch (error) {
