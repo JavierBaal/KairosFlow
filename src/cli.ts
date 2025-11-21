@@ -34,10 +34,11 @@ program
 // Executes the workflow defined in kairos.config.json
 program
   .command('run')
-  .description('Execute the agent pipeline (Dry Run / Simulation)')
-  .action(() => {
+  .description('Execute the agent pipeline')
+  .option('-p, --prompt <text>', 'Initial user request')
+  .action((options) => {
     console.log(chalk.cyan('⚙️  Starting Pipeline Execution...'));
-    runPipeline();
+    runPipeline(options.prompt);
   });
 
 // Parse arguments
