@@ -37,13 +37,17 @@
     "chalk": "^4.1.2",
     "commander": "^11.1.0",
     "dotenv": "^16.6.1",
+    "express": "^5.1.0",
     "fs-extra": "^11.2.0",
     "inquirer": "^8.2.6",
+    "open": "^11.0.0",
     "openai": "^6.9.1",
     "ora": "^5.4.1",
+    "socket.io": "^4.8.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/express": "^5.0.5",
     "@types/fs-extra": "^11.0.4",
     "@types/inquirer": "^9.0.7",
     "@types/jest": "^30.0.0",

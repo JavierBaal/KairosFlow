@@ -41,6 +41,17 @@ program
     runPipeline(options.prompt);
   });
 
+// Command 4: Start Dashboard
+// Launches the web-based visualizer
+program
+  .command('dashboard')
+  .description('Start the Web Dashboard to visualize the pipeline')
+  .option('-p, --port <number>', 'Port to run the dashboard on', '3000')
+  .action(async (options) => {
+    const { startDashboard } = await import('./dashboard/server');
+    await startDashboard(parseInt(options.port));
+  });
+
 // Parse arguments
 program.parse(process.argv);
 

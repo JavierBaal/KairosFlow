@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAIROS FLOW // DASHBOARD</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        :root {
+            --bg: #09090b;
+            --card: #18181b;
+            --border: #27272a;
+            --text: #e4e4e7;
+            --accent: #8b5cf6; /* Violet */
+            --success: #10b981;
+            --font: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            letter-spacing: -0.05em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo {
+            color: var(--accent);
+            font-weight: 800;
+        }
+
+        .status-badge {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            border-right: 1px solid var(--border);
+            padding-right: 2rem;
+            overflow-y: auto;
+        }
+
+        .pipeline-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .step-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-card:hover {
+            border-color: var(--accent);
+        }
+
+        .step-card.active {
+            border-color: var(--accent);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .step-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .step-meta {
+            font-size: 0.75rem;
+            color: #a1a1aa;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .content-area {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            overflow-y: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+        }
+
+        .empty-state {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #52525b;
+            font-style: italic;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #52525b;
+        }
+
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <h1><span class="logo">KAIROS</span> FLOW <span style="color: #52525b;">//</span> VISUALIZER</h1>
+        <div class="status-badge">
+            <div class="indicator"></div>
+            SYSTEM ONLINE
+        </div>
+    </header>
+
+    <main>
+        <aside class="sidebar">
+            <div class="pipeline-steps" id="steps-container">
+                <!-- Steps will be injected here -->
+            </div>
+        </aside>
+        <section class="content-area" id="content-viewer">
+            <div class="empty-state">Select an artifact to view details</div>
+        </section>
+    </main>
+
+    <script>
+        const socket = io();
+        const stepsContainer = document.getElementById('steps-container');
+        const contentViewer = document.getElementById('content-viewer');
+        let artifacts = [];
+        let activeIndex = -1;
+
+        async function fetchArtifacts() {
+            try {
+                const res = await fetch('/api/artifacts');
+                artifacts = await res.json();
+                renderSteps();
+            } catch (err) {
+                console.error('Failed to fetch artifacts', err);
+            }
+        }
+
+        function renderSteps() {
+            stepsContainer.innerHTML = '';
+            artifacts.forEach((art, index) => {
+                const div = document.createElement('div');
+                div.className = `step-card ${index === activeIndex ? 'active' : ''}`;
+                
+                const agentId = art.content.agent_id || art.filename.replace('_output.json', '');
+                const timestamp = art.content.metadata?.timestamp ? new Date(art.content.metadata.timestamp).toLocaleTimeString() : '--:--';
+                const tokens = art.content.metadata?.tokens || 0;
+
+                div.innerHTML = `
+                    <div class="step-header">
+                        <span>${agentId}</span>
+                        <span style="color: var(--success)">✓</span>
+                    </div>
+                    <div class="step-meta">
+                        <span>🕒 ${timestamp}</span>
+                        <span>🪙 ${tokens} toks</span>
+                    </div>
+                `;
+
+                div.onclick = () => {
+                    activeIndex = index;
+                    renderSteps(); // Re-render to update active class
+                    renderContent(art);
+                };
+
+                stepsContainer.appendChild(div);
+            });
+        }
+
+        function renderContent(artifact) {
+            // Pretty print JSON
+            const json = JSON.stringify(artifact.content, null, 2);
+            // Basic syntax highlighting (very simple)
+            contentViewer.innerHTML = `<pre>${json}</pre>`;
+        }
+
+        // Initial load
+        fetchArtifacts();
+
+        // Real-time updates
+        socket.on('update', () => {
+            console.log('Artifacts updated, refreshing...');
+            fetchArtifacts();
+        });
+
+    </script>
+</body>
+</html>
