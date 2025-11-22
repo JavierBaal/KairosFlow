@@ -8,6 +8,9 @@
             "type": "json_object"
         }
     },
+    "plugins": [
+        "../plugins/simple-logger/index.ts"
+    ],
     "pipeline": [
         "AG001_Generator.md",
         "AG002_Filter.md"

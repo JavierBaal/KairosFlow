@@ -8,27 +8,27 @@
   "output": {
     "startup_name": "Morning Brew",
     "tagline": "Awaken Your Day, One Sip at a Time",
-    "description": "Morning Brew is a premium coffee brand dedicated to delivering ethically sourced, artisanal coffee blends that energize and inspire. We focus on sustainability, quality, and community engagement to create a memorable coffee experience for modern consumers.",
+    "description": "Morning Brew is a premium coffee brand dedicated to delivering ethically sourced, artisanal coffee blends that energize and inspire. We focus on sustainability, from farm to cup, ensuring every brew supports local farmers and the environment.",
     "target_audience": [
       "Young professionals aged 25-40",
-      "Coffee enthusiasts seeking premium blends",
-      "Eco-conscious consumers",
+      "Coffee enthusiasts seeking quality",
+      "Environmentally conscious consumers",
       "Urban dwellers with busy lifestyles"
     ],
     "features": [
-      "Ethically sourced beans from sustainable farms",
+      "Ethically sourced beans",
       "Customizable subscription plans",
       "Eco-friendly packaging",
-      "Mobile app for easy ordering and rewards",
-      "Exclusive blends crafted by expert roasters"
+      "Mobile app for easy ordering",
+      "Exclusive seasonal blends"
     ],
     "funding_estimate": "$150,000"
   },
   "metadata": {
-    "timestamp": "2025-11-22T21:05:13.686Z",
+    "timestamp": "2025-11-22T21:15:22.962Z",
     "status": "success",
     "model": "deepseek-chat",
-    "tokens_used": 488,
+    "tokens_used": 478,
     "execution_time_ms": 0
   }
 }

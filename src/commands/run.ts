@@ -6,15 +6,11 @@ import dotenv from 'dotenv';
 import { LLMFactory } from '../llm/factory';
 import { LLMConfig } from '../llm/types';
 import { GranularArtifactSchema } from '../schemas/artifact';
+import { PluginLoader } from '../core/plugins/loader';
+import { KairosConfig } from '../core/plugins/types';
 
 // Load environment variables
 dotenv.config();
-
-interface KairosConfig {
-  projectName: string;
-  llm: LLMConfig;
-  pipeline: string[]; // Array of agent file names in execution order
-}
 
 export const runPipeline = async (initialPrompt?: string) => {
   const spinner = ora('Loading pipeline configuration...').start();
@@ -28,7 +24,7 @@ export const runPipeline = async (initialPrompt?: string) => {
   }
 
   try {
-    const projectConfig = await fs.readJSON(configPath);
+    const projectConfig: KairosConfig = await fs.readJSON(configPath);
 
     // Validate minimal config
     if (!projectConfig.llm) {
@@ -38,6 +34,17 @@ export const runPipeline = async (initialPrompt?: string) => {
         model: 'gpt-4-turbo-preview'
       };
       spinner.warn(chalk.yellow('No LLM config found, defaulting to OpenAI GPT-4.'));
+    }
+
+    // Initialize Plugins
+    const pluginLoader = new PluginLoader(projectConfig);
+    await pluginLoader.loadPlugins();
+
+    // Register Custom Providers from Plugins
+    for (const plugin of pluginLoader.getPlugins()) {
+      if (plugin.registerProviders) {
+        plugin.registerProviders(LLMFactory);
+      }
     }
 
     const provider = LLMFactory.createProvider(projectConfig.llm);
@@ -62,10 +69,16 @@ export const runPipeline = async (initialPrompt?: string) => {
     // Context Accumulator
     let pipelineContext: Record<string, any> = {};
 
+    // Hook: onPipelineStart
+    await pluginLoader.executeHook('onPipelineStart', pipelineContext);
+
     // 3. Execute Pipeline
     for (const agentFile of sortedAgents) {
       const agentName = path.basename(agentFile, '.md');
       const agentSpinner = ora(`Executing Agent: ${chalk.blue(agentName)}...`).start();
+
+      // Hook: onAgentStart
+      await pluginLoader.executeHook('onAgentStart', agentName, pipelineContext);
 
       try {
         // Read Agent Definition
@@ -146,6 +159,9 @@ export const runPipeline = async (initialPrompt?: string) => {
           agentSpinner.succeed(chalk.green(`Agent ${agentName} completed successfully.`));
           console.log(chalk.gray(`   Tokens: ${response.usage?.total_tokens ?? 'N/A'} | Output saved to artifacts/${agentName}_output.json`));
 
+          // Hook: onAgentFinish
+          await pluginLoader.executeHook('onAgentFinish', agentName, artifact);
+
         } catch (parseError: any) {
           agentSpinner.fail(chalk.red(`Agent ${agentName} failed to produce valid JSON.`));
           console.error(chalk.yellow('Raw Output:'), response.content.substring(0, 200) + '...');
@@ -160,6 +176,9 @@ export const runPipeline = async (initialPrompt?: string) => {
         break;
       }
     }
+
+    // Hook: onPipelineFinish
+    await pluginLoader.executeHook('onPipelineFinish', pipelineContext);
 
     console.log(chalk.bold.green('\n✨ Pipeline Execution Completed!'));
 

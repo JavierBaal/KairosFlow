@@ -8,19 +8,19 @@
     ]
   },
   "output": {
-    "pitch_deck_summary": "Morning Brew offers premium, ethically sourced artisanal coffee blends through customizable subscriptions and a mobile app, targeting young professionals and eco-conscious consumers to energize their daily routines with a focus on sustainability and community.",
+    "pitch_deck_summary": "Morning Brew offers ethically sourced, artisanal coffee blends with a focus on sustainability, targeting young professionals and eco-conscious consumers through customizable subscriptions and a user-friendly mobile app.",
     "viability_score": 7,
     "key_risks": [
-      "Intense competition in the premium coffee market",
-      "Dependence on sustainable supply chains for ethical sourcing",
-      "High customer acquisition costs in a crowded digital space"
+      "Intense competition in the coffee market",
+      "Dependence on ethical sourcing for supply chain stability",
+      "High customer acquisition costs in a crowded space"
     ]
   },
   "metadata": {
-    "timestamp": "2025-11-22T21:05:17.604Z",
+    "timestamp": "2025-11-22T21:15:27.884Z",
     "status": "success",
     "model": "deepseek-chat",
-    "tokens_used": 583,
+    "tokens_used": 564,
     "execution_time_ms": 0
   }
 }
