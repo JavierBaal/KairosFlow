@@ -77,7 +77,21 @@ Result:
 - **Context Orchestrator Pattern** – Smart, minimal context injection.  
 - **Model-Agnostic** – Works with GPT‑4, Claude, Gemini, DeepSeek, etc.  
 - **Domain-Agnostic** – Used in production for **marketing** and **software development**.  
-- **Production-Proven** – 79–88% reduction in prompt complexity, verified in real products.  
+- **Production-Proven** – 79–88% reduction in prompt complexity, verified in real products.
+
+---
+
+## 🆚 Why KairosFlow? (The Difference)
+
+Most "Agent Frameworks" are libraries of tools. **KairosFlow is a strict protocol for production.**
+
+| Feature | Standard Agent Libraries (LangChain, npcpy, etc.) | KairosFlow |
+| :--- | :--- | :--- |
+| **Philosophy** | "Give the LLM tools and let it figure it out." | "Define the assembly line. Orchestrate the flow." |
+| **Context** | **Full History:** Agents often see the whole chat history. | **Orchestrated Context:** Agents see *only* what they need. |
+| **Output** | **Unstructured:** Text, maybe JSON if you're lucky. | **Strict Artifacts:** Validated JSON (`GranularArtifactStandard`) at every step. |
+| **Debugging** | "Why did it do that?" (Black Box) | "Step 3 failed schema validation." (Clear Traceability) |
+| **Scalability** | Hard to control after 3+ agents. | Proven stable with 15+ agents in production. |  
 
 ---
 
@@ -114,9 +128,46 @@ For a full deep dive, see:
 
 ---
 
-## 🚀 Quick Start
+## ⚡ Quick Start in 30 Seconds
 
-There are two main ways to start using KAIROS FLOW: **conceptual template** and **code examples**.
+Stop reading and start running.
+
+### 1. Install & Initialize
+```bash
+# Install globally
+npm install -g kairos-flow
+
+# Create a new project
+kairos init my-first-pipeline
+cd my-first-pipeline
+```
+
+### 2. Define an Agent (Markdown)
+Create `agents/AG001_Researcher.md`. Notice it's just Markdown with a clear job.
+
+```markdown
+# AG001 - Researcher Agent
+
+## Role
+You are a senior researcher. Your job is to find facts, not write content.
+
+## Inputs
+- User Request: {{user_request}}
+
+## Task
+1. Analyze the request.
+2. Extract key facts and sources.
+3. Output strictly in GranularArtifactStandard JSON.
+```
+
+### 3. Run the Pipeline
+```bash
+kairos run
+```
+
+*That's it.* The **Context Orchestrator** handles the rest: passing data, validating JSON, and managing state.
+
+---
 
 ### Option 1: Use the Software Development Template
 
