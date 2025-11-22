@@ -1,0 +1,34 @@
+{
+  "agent_id": "AG001_Generator",
+  "agent_name": "AG001_Generator",
+  "responsibility": "Agent Execution",
+  "input": {
+    "context_keys": []
+  },
+  "output": {
+    "startup_name": "Morning Brew",
+    "tagline": "Awaken Your Day, One Sip at a Time",
+    "description": "Morning Brew is a premium coffee brand dedicated to delivering ethically sourced, artisanal coffee blends that energize and inspire. We focus on sustainability, quality, and community engagement to create a memorable coffee experience for modern consumers.",
+    "target_audience": [
+      "Young professionals aged 25-40",
+      "Coffee enthusiasts seeking premium blends",
+      "Eco-conscious consumers",
+      "Urban dwellers with busy lifestyles"
+    ],
+    "features": [
+      "Ethically sourced beans from sustainable farms",
+      "Customizable subscription plans",
+      "Eco-friendly packaging",
+      "Mobile app for easy ordering and rewards",
+      "Exclusive blends crafted by expert roasters"
+    ],
+    "funding_estimate": "$150,000"
+  },
+  "metadata": {
+    "timestamp": "2025-11-22T21:05:13.686Z",
+    "status": "success",
+    "model": "deepseek-chat",
+    "tokens_used": 488,
+    "execution_time_ms": 0
+  }
+}

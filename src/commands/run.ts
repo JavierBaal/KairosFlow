@@ -96,12 +96,39 @@ export const runPipeline = async (initialPrompt?: string) => {
         // Parse and Validate Output
         let artifact;
         try {
-          // Extract JSON from code block if present
-          const jsonMatch = response.content.match(/```json\n([\s\S]*?)\n```/) ||
-            response.content.match(/```\n([\s\S]*?)\n```/);
+          // Robust JSON Extraction Strategy
+          let jsonStr = response.content;
 
-          const jsonStr = jsonMatch ? jsonMatch[1] : response.content;
-          artifact = JSON.parse(jsonStr);
+          // 1. Try Markdown Code Block
+          const jsonMatch = response.content.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+          if (jsonMatch) {
+            jsonStr = jsonMatch[1];
+          } else {
+            // 2. Try finding first '{' and last '}' (if not a code block)
+            const firstOpen = response.content.indexOf('{');
+            const lastClose = response.content.lastIndexOf('}');
+            if (firstOpen !== -1 && lastClose !== -1 && lastClose > firstOpen) {
+              jsonStr = response.content.substring(firstOpen, lastClose + 1);
+            }
+          }
+
+          const llmOutput = JSON.parse(jsonStr);
+
+          // Construct Artifact (Backend Responsibility - Prompt Excellence)
+          artifact = {
+            agent_id: agentName,
+            agent_name: agentName,
+            responsibility: "Agent Execution",
+            input: { context_keys: Object.keys(pipelineContext) },
+            output: llmOutput,
+            metadata: {
+              timestamp: new Date().toISOString(),
+              status: 'success',
+              model: projectConfig.llm.model,
+              tokens_used: response.usage?.total_tokens,
+              execution_time_ms: 0 // Placeholder
+            }
+          };
 
           // Validate Schema
           const validation = GranularArtifactSchema.safeParse(artifact);

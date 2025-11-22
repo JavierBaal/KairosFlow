@@ -1,0 +1,15 @@
+{
+    "projectName": "E2E DeepSeek Validation",
+    "llm": {
+        "provider": "deepseek",
+        "model": "deepseek-chat",
+        "maxTokens": 1000,
+        "responseFormat": {
+            "type": "json_object"
+        }
+    },
+    "pipeline": [
+        "AG001_Generator.md",
+        "AG002_Filter.md"
+    ]
+}

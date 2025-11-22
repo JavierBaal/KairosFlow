@@ -7,6 +7,7 @@ export interface LLMConfig {
     baseUrl?: string;
     temperature?: number;
     maxTokens?: number;
+    responseFormat?: { type: 'text' | 'json_object' };
 }
 
 export interface LLMResponse {

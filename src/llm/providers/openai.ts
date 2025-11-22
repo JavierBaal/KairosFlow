@@ -27,6 +27,7 @@ export class OpenAIProvider implements LLMProvider {
             messages: messages,
             temperature: this.config.temperature ?? 0.7,
             max_tokens: this.config.maxTokens,
+            response_format: this.config.responseFormat,
         });
 
         const content = response.choices[0]?.message?.content || '';
