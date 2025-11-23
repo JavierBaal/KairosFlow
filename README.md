@@ -1,5 +1,16 @@
 # KairosFlow – Multi‑Agent Prompt Framework for Production
 
+<div align="center">
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg)](https://www.typescriptlang.org/)
+[![DeepSeek Ready](https://img.shields.io/badge/DeepSeek-Ready-purple.svg)](https://deepseek.com)
+[![GitHub Stars](https://img.shields.io/github/stars/JavierBaal/KairosFlow?style=social)](https://github.com/JavierBaal/KairosFlow/stargazers)
+[![CI Status](https://github.com/JavierBaal/KairosFlow/actions/workflows/ci.yml/badge.svg)](https://github.com/JavierBaal/KairosFlow/actions)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
+</div>
+
 Build boring, deterministic LLM assembly lines instead of fragile 3k‑token god prompts.
 
 https://github.com/user-attachments/assets/e94a1227-b7a9-4a03-abee-4928320300c1
