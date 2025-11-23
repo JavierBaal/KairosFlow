@@ -2,7 +2,9 @@
 
 Build boring, deterministic LLM assembly lines instead of fragile 3k‑token god prompts.
 
-[![Watch the KairosFlow overview](https://img.youtube.com/vi/4RhXtpuRK-w/hqdefault.jpg)](https://www.youtube.com/watch?v=4RhXtpuRK-w)
+<a href="https://www.youtube.com/watch?v=4RhXtpuRK-w" target="_blank">
+  <img src="https://img.youtube.com/vi/4RhXtpuRK-w/hqdefault.jpg" alt="Watch the KairosFlow overview" width="100%" />
+</a>
 
 > Design, run, and debug multi‑agent LLM pipelines with a single JSON artifact standard, zero system‑level hallucinations, and 79–88% prompt complexity reduction measured in real products.
 
