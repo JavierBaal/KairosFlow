@@ -36,6 +36,9 @@ If you are building serious LLM systems, **star this repo** and steal the patter
 
 ## 🚀 See it in Action: Vanguard Hive
 
+https://github.com/user-attachments/assets/822cac29-35f5-445b-bf25-7424b03629c5
+
+
 **[Vanguard Hive](https://www.vanguardhive.com)** is the flagship implementation of KairosFlow. It is a fully operational **Virtual Creative Agency** where 5 AI agents collaborate to build marketing campaigns.
 
 - **Zero Hallucination:** See how **Alex** (Account Manager) builds a rigid JSON brief from a fluid natural conversation.
