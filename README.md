@@ -16,7 +16,8 @@
 
 Build boring, deterministic LLM assembly lines instead of fragile 3k‑token god prompts.
 
-https://github.com/user-attachments/assets/e94a1227-b7a9-4a03-abee-4928320300c1
+
+https://github.com/user-attachments/assets/0da3c415-66d0-42ee-8c99-4f380da93f5d
 > Design, run, and debug multi‑agent LLM pipelines with a single JSON artifact standard, zero system‑level hallucinations, and 79–88% prompt complexity reduction measured in real products.
 
 ---
