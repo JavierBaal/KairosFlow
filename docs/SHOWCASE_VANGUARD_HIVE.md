@@ -1,6 +1,6 @@
 # Vanguard Hive: A KairosFlow Showcase
 
-https://github.com/user-attachments/assets/457f4891-ca90-4bee-b3ab-a71aad606b38
+[https://github.com/user-attachments/assets/457f4891-ca90-4bee-b3ab-a71aad606b38](https://github.com/user-attachments/assets/c92b1380-0b19-4242-a32c-3cb1973f6597)
 
 **Vanguard Hive** (https://www.vanguardhive.com) is the premier production implementation of the [KairosFlow](../README.md) framework. It demonstrates how "boring," deterministic LLM pipelines can create a magical, human-like user experience.
 
