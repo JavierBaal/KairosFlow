@@ -4,10 +4,13 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg)](https://www.typescriptlang.org/)
-[![DeepSeek Ready](https://img.shields.io/badge/DeepSeek-Ready-purple.svg)](https://deepseek.com)
-[![GitHub Stars](https://img.shields.io/github/stars/JavierBaal/KairosFlow?style=social)](https://github.com/JavierBaal/KairosFlow/stargazers)
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT_5.1_Ready-412991.svg)](https://openai.com)
+[![Anthropic](https://img.shields.io/badge/Anthropic-Claude_4.1_Ready-d97757.svg)](https://anthropic.com)
+[![Google](https://img.shields.io/badge/Google-Gemini_3.0_Pro_Ready-8E75B2.svg)](https://deepmind.google)
+[![Open Source](https://img.shields.io/badge/Open_Source-Ollama_Compatible-000000.svg)](https://ollama.com)
 [![CI Status](https://github.com/JavierBaal/KairosFlow/actions/workflows/ci.yml/badge.svg)](https://github.com/JavierBaal/KairosFlow/actions)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![GitHub Stars](https://img.shields.io/github/stars/JavierBaal/KairosFlow?style=social)](https://github.com/JavierBaal/KairosFlow/stargazers)
 
 </div>
 
@@ -23,10 +26,22 @@ https://github.com/user-attachments/assets/e94a1227-b7a9-4a03-abee-4928320300c1
 - **Enterprise‑grade multi‑agent framework** for production LLM systems, not another toy “agent demo”.  
 - **GranularArtifactStandard**: one JSON contract for every agent, with backend‑owned metadata and strict validation at each hop.  
 - **Battle‑tested** in commercial products (marketing pipelines and a WordPress plugin factory) with 79–88% reduction in prompt complexity and task success rates up to ~95% on complex workflows.  
-- **Model‑agnostic**: OpenAI, Anthropic, DeepSeek, Gemini, and custom providers behind a single LLM interface.  
+- **Model‑agnostic**: OpenAI, Anthropic, Gemini, MoE Models (e.g. Llama 3, Mixtral), and custom providers behind a single LLM interface.  
 - **CLI‑first DX**: `kairos init`, `kairos run`, `kairos validate`, plus a dashboard to inspect pipelines and artifacts in real time.  
 
 If you are building serious LLM systems, **star this repo** and steal the patterns.
+
+---
+
+## 🚀 See it in Action: Vanguard Hive
+
+**[Vanguard Hive](https://www.vanguardhive.com)** is the flagship implementation of KairosFlow. It is a fully operational **Virtual Creative Agency** where 5 AI agents collaborate to build marketing campaigns.
+
+- **Zero Hallucination:** See how **Alex** (Account Manager) builds a rigid JSON brief from a fluid natural conversation.
+- **Infinite Context:** Watch **Chloe** (Strategist) brainstorm for hours without "context rot" thanks to KairosFlow's *Context Diet*.
+- **Production Ready:** A real-world SaaS product built entirely on this framework.
+
+[👉 **Read the Case Study**](docs/SHOWCASE_VANGUARD_HIVE.md)
 
 ---
 
@@ -70,13 +85,14 @@ The result is a pipeline that feels like standard software engineering: traceabl
 
 KairosFlow was extracted from real products and refined until the numbers were defensible in front of a CTO or a client.
 
-### 1. Kairos Creative V2 – Marketing pipelines
+### 1. Vanguard Hive (formerly Kairos Creative V2) – Marketing pipelines
+- **URL:** [https://www.vanguardhive.com](https://www.vanguardhive.com)
 
-- **Domain:** marketing campaigns and copy generation.  
-- **Agents:** 4 specialized roles (strategy, writer, SEO, QA) in sequence.  
+- **Domain:** marketing campaigns, strategy, and creative direction.  
+- **Agents:** 5 specialized agents (Account, Strategy, Director, Copywriter, Art Director) + QA.  
 - **Tokens:** roughly **75% reduction** in tokens per campaign compared to a single‑prompt baseline.  
 - **Quality:** internal evaluation scores improved from ~65 to ~90 after moving to the multi‑agent pipeline.  
-- **Cost:** around **$0.01 per campaign** when using cost‑efficient models like DeepSeek in the factory setup.  
+- **Cost:** around **$0.01 per campaign** when using cost‑efficient high-performance MoE models (LLM MoE) in the factory setup.  
 
 ### 2. Kairos WP – WordPress plugin factory
 
@@ -190,7 +206,7 @@ Each step exchanges a validated artifact, which lets you:
 ### Model‑agnostic LLM layer
 
 - Unified `LLMProvider` interface and `LLMFactory` to instantiate different backends from one config.  
-- Built‑in providers for OpenAI (GPT‑3.5/4), Anthropic Claude, DeepSeek via OpenAI‑compatible API, Google Gemini, and custom endpoints.  
+- Built‑in providers for OpenAI (GPT‑3.5/4), Anthropic Claude, Google Gemini, High-Performance MoE Models, and custom endpoints.  
 - JSON‑first prompting patterns for tool‑like, schema‑constrained outputs.  
 
 ### Testing, CI, and deployment
