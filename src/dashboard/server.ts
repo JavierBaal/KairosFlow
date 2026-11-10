@@ -3,7 +3,6 @@ import http from 'http';
 import { Server } from 'socket.io';
 import path from 'path';
 import fs from 'fs-extra';
-import open from 'open';
 import chalk from 'chalk';
 
 export const startDashboard = async (port: number = 3000) => {
@@ -64,6 +63,13 @@ export const startDashboard = async (port: number = 3000) => {
     server.listen(port, async () => {
         const url = `http://localhost:${port}`;
         console.log(chalk.green(`\n🚀 Dashboard running at ${url}`));
-        await open(url);
+        try {
+            // `open` is ESM-only; load it natively so the CommonJS build works on every Node version.
+            const esmImport = new Function('specifier', 'return import(specifier)') as (s: string) => Promise<any>;
+            const { default: open } = await esmImport('open');
+            await open(url);
+        } catch {
+            console.log(chalk.gray('   Open the URL above in your browser.'));
+        }
     });
 };

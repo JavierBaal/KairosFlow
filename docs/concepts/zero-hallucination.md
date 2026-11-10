@@ -1,73 +1,68 @@
-# 🧠 Zero-Hallucination Metadata
+# Backend-owned metadata
 
-> **The Problem:** You ask an LLM to "generate a JSON with a unique ID and the current timestamp."
-> **The Reality:** The LLM hallucinates a random ID (that might collide) and a timestamp from its training data or a random future date.
+> **The problem:** ask a model to "return JSON with an ID and the current timestamp" and it will make both up. The ID may collide; the date may come from its training data.
 
-## The Kairos Solution: Backend-Driven Metadata
+## How KairosFlow handles it
 
-In KairosFlow, we treat the LLM as a **logic engine**, not a **system clock**.
+The model is treated as a reasoning step, not as a system clock.
 
-### How It Works
+1. **The agent's job:** return the business payload only. The system prompt tells it not to add `agent_id`, `metadata` or similar fields.
+2. **The framework's job:** parse the answer, check it, and wrap it in a `GranularArtifact`.
+3. **What the framework writes:** the real timestamp, the configured model name, the token count reported by the provider, the measured execution time and the number of attempts.
 
-1.  **The Agent's Job:** The Agent is strictly forbidden from generating metadata. It focuses 100% of its attention on the `output` payload.
-2.  **The Backend's Job:** The Kairos CLI (running in Node.js) intercepts the agent's output and wraps it in a `GranularArtifact`.
-3.  **The Injection:** The CLI calculates the *real* timestamp, generates a *cryptographically secure* UUID, and measures the *actual* token usage.
+### Comparison
 
-### Architecture Comparison
+**Asking the model for system fields:**
 
-#### ❌ The "Toy" Approach (Standard Frameworks)
-
-**Prompt:**
 ```text
 You are a writer. Write a blog post.
-Also, please output a JSON object with:
+Also output a JSON object with:
 - id: a unique uuid
 - timestamp: now
 - content: your text
 ```
 
-**Result (Risk):**
 ```json
 {
-  "id": "12345", // Collision risk
-  "timestamp": "2023-10-01...", // Hallucinated date
+  "id": "12345",
+  "timestamp": "2023-10-01T00:00:00Z",
   "content": "..."
 }
 ```
 
-#### ✅ The Kairos Way (Enterprise-Grade)
+**With KairosFlow, the agent returns only the content:**
 
-**Prompt:**
-```text
-You are a writer. Write a blog post.
-Output ONLY the content in JSON format.
-```
-
-**Agent Output:**
 ```json
 {
-  "title": "My Post",
+  "title": "My post",
   "body": "..."
 }
 ```
 
-**System Injection (CLI):**
+**And the framework builds the envelope** (`src/core/pipeline.ts`):
+
 ```typescript
-// src/commands/run.ts
-const artifact = {
-  agent_id: "AG002_Writer",
-  output: agentOutput, // Injected here
+const candidate = {
+  agent_id: step.name,
+  output,                                   // the agent's JSON
   metadata: {
-    id: crypto.randomUUID(), // Real UUID
-    timestamp: new Date().toISOString(), // Real Time
-    model: "deepseek-chat", // Real Config
-    tokens: usage.total_tokens // Real Metrics
-  }
+    timestamp: new Date().toISOString(),
+    status: 'success',
+    model,                                  // from kairos.config.json
+    tokens_used: tokens,                    // reported by the provider
+    execution_time_ms: Date.now() - started,
+    attempts,
+  },
+  validation: { is_valid: true, checks_passed: [...checks, 'artifact_envelope'] },
 };
 ```
 
-### Benefits
+### What this gives you
 
-1.  **Zero Hallucinations:** System data is always correct.
-2.  **Token Savings:** You don't waste tokens explaining how to format dates or IDs.
-3.  **Security:** Traceability is guaranteed by the runtime, not the AI.
+1. **Reliable system fields.** Timestamps, model names and metrics in the trace come from the runtime.
+2. **Shorter prompts.** No tokens spent explaining date or ID formats.
+3. **Traceability.** Each artifact records how many attempts it took and which checks it passed.
+
+### What it does not do
+
+It does not stop the model from inventing things inside `output`. For that, use an `outputSchema` per step (structure) and keep each agent's context limited to what it needs (fewer chances to mix up sources). Checking facts is still a job for a human or a dedicated QA agent.

@@ -9,7 +9,7 @@
         }
     },
     "plugins": [
-        "../plugins/simple-logger/index.ts"
+        "../plugins/simple-logger/index.js"
     ],
     "pipeline": [
         "AG001_Generator.md",

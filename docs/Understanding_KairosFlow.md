@@ -83,9 +83,9 @@ The result of this intelligent management is immediate. As the framework itself 
 
 The fundamental idea of KAIROS FLOW is that dividing complex AI tasks into smaller, specialized, and coordinated steps — like in an assembly line — is a much more efficient, controllable, and economical approach than relying on a single overloaded "genius."
 
-By applying these three principles (one agent per task, a common language, and an intelligent orchestrator), the KAIROS FLOW framework achieves impressive results, reducing system complexity between 79% and 88%.
+By applying these three principles (one agent per task, a common language, and an intelligent orchestrator), the KAIROS FLOW framework aims to make each step small enough to read, test and replace on its own.
 
-Ultimately, this approach isn't just theory; it's a proven method that allows building more powerful and reliable AI tools, capable of handling everything from large-scale marketing campaign creation with Kairos Creative to complex, production-ready software development as demonstrated in Kairos WP.
+These ideas were first tried in two internal projects: Kairos Creative (now Vanguard Hive), a campaign pipeline, and Kairos WP, a WordPress plugin generator.
 
 ---
 
@@ -93,16 +93,13 @@ Ultimately, this approach isn't just theory; it's a proven method that allows bu
 
 If you want to see these principles in action:
 
-1. **Explore Examples:** Check out our [basic examples](examples/basic/) to see simple 2-agent pipelines
-2. **Dive Deeper:** Review [intermediate examples](examples/intermediate/) for more complex scenarios
-3. **Advanced Use Cases:** Explore [advanced examples](examples/advanced/) for enterprise-level implementations
+1. **Explore examples:** see the [basic example](../examples/basic/) for a two-agent pipeline
+2. **Run one:** [`examples/e2e-deepseek`](../examples/e2e-deepseek/) is a working pipeline with a plugin
 
 ### Additional Resources
 
 - **📖 [Getting Started Guide](getting-started.md)** - Step-by-step implementation tutorial
 - **🏗️ [Architecture Documentation](architecture.md)** - Technical deep-dive into system design  
-- **💡 [Best Practices](best-practices.md)** - Proven patterns and recommendations
-- **⚠️ [Anti-Patterns to Avoid](anti-patterns.md)** - Common mistakes and how to prevent them
 
 ---
 

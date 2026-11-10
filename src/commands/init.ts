@@ -27,22 +27,12 @@ export const initProject = async () => {
     },
     {
       type: 'list',
-      name: 'template',
-      message: '📋  Select a Blueprint:',
-      choices: [
-        { name: 'Basic (2 Agents: Researcher -> Writer)', value: 'basic' },
-        { name: 'Software Factory (10 Agents Full Pipeline)', value: 'software' },
-        { name: 'Blank Canvas (Start from scratch)', value: 'blank' }
-      ]
-    },
-    {
-      type: 'list',
       name: 'llmProvider',
       message: '🧠  Select your Intelligence Engine:',
       choices: [
-        { name: 'DeepSeek V3 (Recommended - $0.05/day)', value: 'deepseek' },
+        { name: 'DeepSeek (deepseek-chat)', value: 'deepseek' },
         { name: 'OpenAI (GPT-4o)', value: 'openai' },
-        { name: 'Anthropic (Claude 3.5 Sonnet)', value: 'anthropic' },
+        { name: 'Anthropic (Claude Sonnet 4.5)', value: 'anthropic' },
         { name: 'Custom (Local/Compatible)', value: 'custom' }
       ]
     },
@@ -72,15 +62,15 @@ export const initProject = async () => {
     await fs.ensureDir(path.join(projectPath, 'plugins')); // Added plugins dir
 
     // Determine default model based on provider
-    let defaultModel = 'gpt-4-turbo-preview';
-    if (answers.llmProvider === 'anthropic') defaultModel = 'claude-3-5-sonnet-20240620';
+    let defaultModel = 'gpt-4o';
+    if (answers.llmProvider === 'anthropic') defaultModel = 'claude-sonnet-4-5';
     if (answers.llmProvider === 'deepseek') defaultModel = 'deepseek-chat';
 
     // Create config file
     const config = {
       projectName: answers.projectName,
       version: '1.0.0',
-      template: answers.template,
+      template: 'starter',
       created_at: new Date().toISOString(),
       llm: {
         provider: answers.llmProvider,
@@ -108,11 +98,11 @@ export const initProject = async () => {
     await fs.writeFile(path.join(projectPath, '.env'), envContent);
 
     // Create Default Agent (Agent 001)
-    const agentContent = defaultAgentTemplate(answers.template);
+    const agentContent = defaultAgentTemplate('starter');
     await fs.writeFile(path.join(projectPath, 'agents', '001-product-manager.md'), agentContent);
 
     // Create README
-    await fs.writeFile(path.join(projectPath, 'README.md'), `# ${answers.projectName}\n\nGenerated with KAIROS FLOW CLI.\n\n## Setup\n1. Check \`.env\` and add your API Key.\n2. Run \`npx kairos-flow run\` to start.`);
+    await fs.writeFile(path.join(projectPath, 'README.md'), `# ${answers.projectName}\n\nGenerated with KAIROS FLOW CLI.\n\n## Setup\n1. Check \`.env\` and add your API Key.\n2. Run \`kairos run\` to start.`);
 
     // Create .gitignore
     await fs.writeFile(path.join(projectPath, '.gitignore'), `node_modules\n.env\nartifacts/*\n!artifacts/.gitkeep`);
@@ -121,8 +111,7 @@ export const initProject = async () => {
 
     console.log(`\n🚀  **Ready to Launch:**\n`);
     console.log(chalk.cyan(`  cd ${answers.projectName}`));
-    console.log(chalk.cyan(`  npx kairos-flow run`));
-    console.log(chalk.gray(`\n  "The best way to predict the future is to create it." - Abraham Lincoln (and KairosFlow)`));
+    console.log(chalk.cyan(`  kairos run`));
     console.log(chalk.yellow(`\n  ⚠️  Don't forget to verify your API Key in the .env file!\n`));
 
   } catch (error) {
