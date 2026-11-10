@@ -1,20 +1,21 @@
 {
   "name": "kairos-flow",
   "version": "1.0.0",
-  "description": "Production-ready CLI framework for building granular multi-agent AI systems.",
+  "description": "CLI framework for multi-agent LLM pipelines: one agent per job, validated JSON between steps.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
     "kairos": "./bin/kairos.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node -e \"require('fs-extra').copySync('src/dashboard/public','dist/dashboard/public')\"",
     "start": "node dist/cli.js",
     "dev": "ts-node src/cli.ts",
-    "lint": "eslint src/**/*.ts",
-    "format": "prettier --write src/**/*.ts",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
     "test": "jest",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "typecheck": "tsc --noEmit",
+    "prepare": "npm run build"
   },
   "keywords": [
     "ai",
@@ -26,7 +27,7 @@
     "workflow",
     "automation"
   ],
-  "author": "Javier Baal",
+  "author": "Fran Barbero (https://www.vanguardhive.com)",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.70.1",
+    "ajv": "^8.17.1",
     "chalk": "^4.1.2",
     "commander": "^11.1.0",
     "dotenv": "^16.6.1",
@@ -59,6 +61,14 @@
     "typescript": "^5.3.2"
   },
   "engines": {
-    "node": ">=18.0.0"
-  }
+    "node": ">=20.0.0"
+  },
+  "homepage": "https://github.com/JavierBaal/KairosFlow#readme",
+  "files": [
+    "dist",
+    "bin",
+    "templates",
+    "README.md",
+    "LICENSE"
+  ]
 }

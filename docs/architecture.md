@@ -23,7 +23,7 @@ The Multi-Agent Prompt Framework is built on **3 core components**:
 2. **GranularArtifactStandard** - Standardized data exchange
 3. **Context Orchestrator** - Smart context injection
 
-These components work together to achieve **79-88% reduction in prompt complexity**.
+Together they keep each prompt small and each step's input and output explicit.
 
 ---
 
@@ -245,10 +245,10 @@ Three levels:
 
 ## Real-World Case Study: Kairos WP
 
-**Before:** 1 agent, 3,500 tokens, 40% success  
-**After:** 15 agents, 400 tokens avg, 95% success
+**Before:** one prompt of about 3,500 tokens doing everything.  
+**After:** 15 agents with prompts of about 400 tokens each.
 
-**Result:** 88% complexity reduction
+These are the author's own observations from an internal project, not a published benchmark.
 
 ---
 

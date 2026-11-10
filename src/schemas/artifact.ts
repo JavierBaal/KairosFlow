@@ -12,7 +12,8 @@ export const GranularArtifactSchema = z.object({
     tokens_used: z.number().optional(),
     execution_time_ms: z.number().optional(),
     status: z.enum(['success', 'error', 'pending']),
-    model: z.string().optional()
+    model: z.string().optional(),
+    attempts: z.number().int().positive().optional()
   }),
   validation: z.object({
     is_valid: z.boolean(),

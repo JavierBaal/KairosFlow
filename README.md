@@ -1,275 +1,164 @@
-# KairosFlow – Multi‑Agent Prompt Framework for Production
+# KairosFlow
 
-<div align="center">
-
+[![CI](https://github.com/JavierBaal/KairosFlow/actions/workflows/ci.yml/badge.svg)](https://github.com/JavierBaal/KairosFlow/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg)](https://www.typescriptlang.org/)
-[![OpenAI](https://img.shields.io/badge/OpenAI-GPT_5.1_Ready-412991.svg)](https://openai.com)
-[![Anthropic](https://img.shields.io/badge/Anthropic-Claude_4.1_Ready-d97757.svg)](https://anthropic.com)
-[![Google](https://img.shields.io/badge/Google-Gemini_3.0_Pro_Ready-8E75B2.svg)](https://deepmind.google)
-[![Open Source](https://img.shields.io/badge/Open_Source-Ollama_Compatible-000000.svg)](https://ollama.com)
-[![CI Status](https://github.com/JavierBaal/KairosFlow/actions/workflows/ci.yml/badge.svg)](https://github.com/JavierBaal/KairosFlow/actions)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![GitHub Stars](https://img.shields.io/github/stars/JavierBaal/KairosFlow?style=social)](https://github.com/JavierBaal/KairosFlow/stargazers)
 
-</div>
-
-Build boring, deterministic LLM assembly lines instead of fragile 3k‑token god prompts.
+A command-line framework for multi-agent LLM pipelines. Each agent does one job, returns JSON, and the framework checks that JSON before the next agent sees it.
 
 https://github.com/user-attachments/assets/018e4a85-9486-448d-85c7-eb14c06698a1
 
-> Design, run, and debug multi‑agent LLM pipelines with a single JSON artifact standard, zero system‑level hallucinations, and 79–88% prompt complexity reduction measured in real products.
+KairosFlow is a research project. It started from a practical problem: long, all-purpose prompts become impossible to debug, and models invent details when they are asked to do too many things at once. The approach here is to split the work into small agents, pass only the context each one needs, and reject output that does not match a schema.
 
 ---
 
-## TL;DR
+## What it does
 
-- **Enterprise‑grade multi‑agent framework** for production LLM systems, not another toy “agent demo”.  
-- **GranularArtifactStandard**: one JSON contract for every agent, with backend‑owned metadata and strict validation at each hop.  
-- **Battle‑tested** in commercial products (marketing pipelines and a WordPress plugin factory) with 79–88% reduction in prompt complexity and task success rates up to ~95% on complex workflows.  
-- **Model‑agnostic**: OpenAI, Anthropic, Gemini, MoE Models (e.g. Llama 3, Mixtral), and custom providers behind a single LLM interface.  
-- **CLI‑first DX**: `kairos init`, `kairos run`, `kairos validate`, plus a dashboard to inspect pipelines and artifacts in real time.  
-
-If you are building serious LLM systems, **star this repo** and steal the patterns.
-
----
-
-## 🚀 See it in Action: Vanguard Hive
-
-https://github.com/user-attachments/assets/c92b1380-0b19-4242-a32c-3cb1973f6597
-
-**[Vanguard Hive](https://www.vanguardhive.com)** is the flagship implementation of KairosFlow. It is a fully operational **Virtual Creative Agency** where 5 AI agents collaborate to build marketing campaigns.
-
-- **Zero Hallucination:** See how **Alex** (Account Manager) builds a rigid JSON brief from a fluid natural conversation.
-- **Infinite Context:** Watch **Chloe** (Strategist) brainstorm for hours without "context rot" thanks to KairosFlow's *Context Diet*.
-- **Production Ready:** A real-world SaaS product built entirely on this framework.
-
-[👉 **Read the Case Study**](docs/SHOWCASE_VANGUARD_HIVE.md)
+- **Runs agents in a declared order.** A pipeline is a list of Markdown prompts in `agents/`, executed in the order set in `kairos.config.json` (or alphabetically if no order is set).
+- **Controls context per agent.** A step can declare which earlier outputs it receives. Everything else stays out of its prompt.
+- **Validates every output.** Responses must parse as JSON and, optionally, satisfy a JSON Schema. Invalid output is sent back to the model with the validation errors, up to a set number of retries. If it still fails, the pipeline stops.
+- **Keeps a trace.** Each step is saved as an artifact in `artifacts/`, with metadata written by the framework, not the model: timestamp, model, tokens used, execution time and number of attempts.
+- **Works with several providers.** OpenAI, Anthropic, DeepSeek, and any OpenAI-compatible endpoint (including local servers that expose that API).
+- **Plugins.** Lifecycle hooks (`onPipelineStart`, `onAgentStart`, `onAgentFinish`, `onPipelineFinish`) and custom providers.
+- **Dashboard.** A small local web view of pipeline progress and artifacts.
 
 ---
 
-## Why KairosFlow?
+## Install
 
-Most AI stacks start from a single “god prompt” and end up with a 3,000+ token blob that nobody can reason about, debug, or scale safely.  
-KairosFlow applies the Henry Ford assembly‑line principle to LLMs: one agent, one responsibility, validated at every step.
+KairosFlow is not published on npm. Install it from GitHub (Node 20 or later):
 
-```mermaid
-graph TD
-    subgraph "❌ The Old Way (Monolithic Agent)"
-        U1[User Request] -->|3000+ Token Prompt| G[🤖 GOD AGENT]
-        G -->|Thinking...| H[🤯 Hallucination Risk]
-        G -->|Expensive| D[💸 High Cost]
-        G -->|Unpredictable| O1[Blob Output]
-    end
-
-    subgraph "✅ The Kairos Way (Henry Ford Assembly Line)"
-        U2[User Request] -->|Orchestrator| P1[👷 Agent: Spec]
-        P1 -->|Valid JSON| P2[👷 Agent: Architect]
-        P2 -->|Valid JSON| P3[👷 Agent: Coder]
-        P3 -->|Valid JSON| P4[🕵️ Agent: QA]
-        P4 -->|Certified| O2[💎 Production Artifact]
-    end
-    
-    style G fill:#ffcccc,stroke:#333,stroke-width:2px
-    style O2 fill:#ccffcc,stroke:#333,stroke-width:2px
+```bash
+npm install -g github:JavierBaal/KairosFlow
 ```
 
-**Core idea**
+Or clone and link:
 
-- Replace monolithic prompts with **pipelines of 2–15 specialized agents**, each with a small, focused prompt aligned to a single role.  
-- Normalize all communication through **GranularArtifactStandard v1.0.0** – a single JSON envelope with input, output, metadata, and validation checks.  
-- Let the **backend own all system metadata** (timestamps, status, IDs, metrics), so agents only produce business payloads and cannot hallucinate infrastructure fields.  
-
-The result is a pipeline that feels like standard software engineering: traceable, testable, and predictable instead of “prompt alchemy”.
-
----
-
-## Proven results (real KPIs)
-
-KairosFlow was extracted from real products and refined until the numbers were defensible in front of a CTO or a client.
-
-### 1. Vanguard Hive (formerly Kairos Creative V2) – Marketing pipelines
-- **URL:** [https://www.vanguardhive.com](https://www.vanguardhive.com)
-
-- **Domain:** marketing campaigns, strategy, and creative direction.  
-- **Agents:** 5 specialized agents (Account, Strategy, Director, Copywriter, Art Director) + QA.  
-- **Tokens:** roughly **75% reduction** in tokens per campaign compared to a single‑prompt baseline.  
-- **Quality:** internal evaluation scores improved from ~65 to ~90 after moving to the multi‑agent pipeline.  
-- **Cost:** around **$0.01 per campaign** when using cost‑efficient high-performance MoE models (LLM MoE) in the factory setup.  
-
-### 2. Kairos WP – WordPress plugin factory
-
-- **Domain:** generation of production‑grade WordPress plugins (PHP + JS).  
-- **Agents:** up to **15 specialized agents** (PM, architect, multiple coders, QA, etc.).  
-- **Prompt complexity:** about **88% reduction** (from a single ~3,500‑token prompt to multiple ~400‑token prompts chained via artifacts).  
-- **Success rate:** complex tasks increased from ~40% reliable completion to roughly **95%** once the assembly‑line architecture was in place.  
-
-### 3. Platform‑level gains
-
-- **Complexity reduction:** 79–88% less prompt surface area to maintain versus giant system prompts.  
-- **Debug time:** typical issues can be isolated in ~30 minutes because every step leaves a structured artifact trail.  
-- **Reuse:** up to ~80% of agents and templates can be reused across projects and domains once the pipeline patterns are in place.  
-
----
-
-## Key concepts
-
-### GranularArtifactStandard
-
-A single JSON schema that every agent reads and writes.
-
-Each artifact includes:
-
-- Core fields such as `agent_id`, `agent_name`, `responsibility`, `input`, and `output`.  
-- A **metadata** block injected by the CLI/backend (timestamps, status flags, execution stats) that agents never touch.  
-- A **validation** block (implemented with Zod) that records checks performed and whether the artifact is considered valid for downstream steps.  
-
-This makes every hop in the pipeline observable, replayable, and easy to inspect from the CLI or the dashboard.
-
-### Context Orchestrator
-
-A dedicated orchestrator decides how context flows through the pipeline instead of dumping global state into every prompt.
-
-It controls:
-
-- Which artifacts and fields each agent sees as context.  
-- How much history to inject (minimal by default to avoid cognitive and token bloat).  
-- The execution order, branching, and failure handling between agents.  
-
-This design removes the need to stuff entire conversation logs and configs into a single LLM call.
-
-### Henry Ford pipeline
-
-Instead of “one LLM does everything”, a typical pipeline looks like:
-
-- **Software:** spec → architecture → code → QA.  
-- **Marketing:** strategy → draft copy → SEO optimization → QA.  
-
-Pipelines scale from 2 to 15 agents without changing the core architecture or artifact contract.
-
----
+```bash
+git clone https://github.com/JavierBaal/KairosFlow.git
+cd KairosFlow
+npm install
+npm link
+```
 
 ## Quickstart
 
-Install the CLI globally:
-
-```
-npm install -g kairos-flow
-```
-
-Initialize a new factory:
-
-```
-kairos init my-factory
-cd my-factory
+```bash
+kairos init            # asks for a project name and a provider
+cd my-kairos-pipeline
+# add your API key to .env
+kairos run -p "Write a launch plan for a neighbourhood bakery"
 ```
 
-Run your first pipeline:
+Other commands:
 
+```bash
+kairos validate artifacts/001-product-manager_output.json   # check an artifact
+kairos dashboard --port 3000                                # local dashboard
 ```
-kairos run
-```
-
-During `kairos init` you will:
-
-- Select your **LLM provider** (OpenAI, Anthropic, DeepSeek, Gemini, or a custom OpenAI‑compatible endpoint).  
-- Configure API keys via environment variables instead of hard‑coding secrets.  
-
-Artifacts produced by each run are stored as JSON and can be explored through the CLI or the dashboard.
 
 ---
 
-## Example: simple multi‑agent pipeline
+## Configuring a pipeline
 
-KairosFlow ships with templates you can adapt directly to your own domain.
+`kairos.config.json`:
 
-A minimal “software factory” pipeline:
+```json
+{
+  "projectName": "content-pipeline",
+  "llm": { "provider": "openai", "model": "gpt-4o" },
+  "maxRetries": 1,
+  "pipeline": [
+    "AG001_Research.md",
+    {
+      "agent": "AG002_Outline.md",
+      "context": ["AG001_Research"],
+      "outputSchema": "schemas/outline.json",
+      "maxRetries": 2
+    },
+    {
+      "agent": "AG003_Draft.md",
+      "context": ["AG002_Outline"]
+    }
+  ]
+}
+```
 
-1. **Spec Agent** – turns a vague user request into a structured, machine‑readable specification.  
-2. **Architect Agent** – converts the spec into a plan of files, modules, and responsibilities.  
-3. **Coder Agent** – generates implementation code for each planned unit.  
-4. **QA Agent** – reviews the outputs, flags issues, and proposes fixes before you ship.  
+A step is either a file name or an object with:
 
-Each step exchanges a validated artifact, which lets you:
+| Field | Meaning |
+|---|---|
+| `agent` | Markdown prompt in `agents/`. `{{user_request}}` is replaced with the `-p` text. |
+| `context` | Names of earlier steps whose output this agent receives. Omit it to pass all earlier outputs. Asking for a step that has not run yet is an error. |
+| `outputSchema` | Path to a JSON Schema the output must satisfy. |
+| `maxRetries` | Re-prompts allowed after an invalid answer. Defaults to the top-level `maxRetries`, or 1. |
 
-- Inspect exactly what each agent received and produced.  
-- Add or remove agents without rewriting the rest of the pipeline.  
-- Re‑run only the failing steps when validation fails instead of re‑invoking the whole chain.
+In the example, `AG003_Draft` never sees the research notes, only the outline that was built from them.
 
----
+## The artifact
 
-## Features
+Every step is stored in the same envelope (validated with Zod):
 
-### Production‑ready architecture
+```json
+{
+  "agent_id": "AG002_Outline",
+  "agent_name": "AG002_Outline",
+  "responsibility": "Agent Execution",
+  "input": { "context_keys": ["AG001_Research"] },
+  "output": { "...": "the agent's JSON" },
+  "metadata": {
+    "timestamp": "2026-11-10T10:12:03.511Z",
+    "status": "success",
+    "model": "gpt-4o",
+    "tokens_used": 1834,
+    "execution_time_ms": 4120,
+    "attempts": 2
+  },
+  "validation": {
+    "is_valid": true,
+    "checks_passed": ["json_parse", "output_schema", "artifact_envelope"]
+  }
+}
+```
 
-- **TypeScript + Node.js** core with strict compiler settings and predictable builds.  
-- **Zod schemas** for runtime validation and automatic TypeScript inference.  
-- **Commander‑based CLI** exposing `init`, `run`, and `validate` commands out of the box.  
-
-### Model‑agnostic LLM layer
-
-- Unified `LLMProvider` interface and `LLMFactory` to instantiate different backends from one config.  
-- Built‑in providers for OpenAI (GPT‑3.5/4), Anthropic Claude, Google Gemini, High-Performance MoE Models, and custom endpoints.  
-- JSON‑first prompting patterns for tool‑like, schema‑constrained outputs.  
-
-### Testing, CI, and deployment
-
-- **Jest + ts‑jest** configured and running unit tests against the core schema and CLI.  
-- **GitHub Actions** workflow that builds and tests on every push/PR for main Node versions.  
-- Ready for Dockerization and integration into your internal AI platform (base Dockerfile patterns are already defined in the docs).  
-
-### Dashboard and observability
-
-- Web dashboard MVP to visualize pipeline progress in real time and browse generated artifacts.  
-- CLI command (e.g. `kairos dashboard`) to launch the UI and connect it to your local runs.  
-- Metrics layer designed for throughput, token usage, and agent‑level performance, with hooks planned for Prometheus, Grafana, and Sentry integrations.  
-
-### Extensibility
-
-- Plugin system with lifecycle hooks such as `onPipelineStart`, `onAgentStart`, and `onAgentFinish` so you can add logging, notifications, or custom logic without touching the core engine.  
-- Support for local and npm‑distributed plugins managed by a centralized loader.  
-- Template system for domain‑specific pipelines (software development, content generation, data analysis, marketing campaigns, and more).  
-
----
-
-## Who is this for?
-
-KairosFlow targets teams and individuals who have already felt the pain of “just tweak the system prompt again”.
-
-Typical users:
-
-- **Senior AI / ML engineers** and **technical leads** responsible for delivering LLM systems into production.  
-- **Consultancies and agencies** that need reusable pipelines (copy, codegen, analytics) that they can roll out across clients.  
-- **Product and startup teams** that need production‑grade architecture and compliance‑friendly traceability without hiring a full AI platform team.  
-
-If this sounds like your context, KairosFlow gives you a methodology and a framework, not just a random bag of helpers.
-
----
-
-## Roadmap
-
-**Short‑term (v1.x)**
-
-- Additional ready‑to‑run templates for common production use cases.  
-- More examples with real prompts, tests, and sample data.  
-- UX polish for plugin system and dashboard based on early adopters’ feedback.  
-
-**Mid‑term (v2.x)**
-
-- Marketplace of pre‑built agents and pipelines.  
-- Cloud deployment recipes (Docker, Kubernetes, serverless patterns).  
-- Advanced analytics and monitoring integrations for agent‑level KPIs.  
-
-See the issue tracker for what is currently being designed and implemented.
+The model only writes `output`. The rest is filled in by the framework, so fields like timestamps or status cannot be made up by the model.
 
 ---
 
-## Contributing
+## Case study: Vanguard Hive
 
-Contributions are welcome:
+https://github.com/user-attachments/assets/c92b1380-0b19-4242-a32c-3cb1973f6597
 
-1. **Star** this repo if the ideas are useful to you – it helps others discover the framework.  
-2. Open an **issue** with your use cases, questions, or bug reports.  
-3. Send **PRs** with new templates, documentation improvements, or provider integrations.  
+Vanguard Hive is a virtual creative agency where five agents (account manager, strategist, creative director, copywriter and art director, plus a QA step) prepare an advertising campaign from a conversation with the client. It is where the ideas in this repository were tried first. The product is not publicly available at the moment.
 
-KairosFlow is open source, with a clear path toward commercial add‑ons (agents, templates, and services) for teams that need extra support.
+[Read the case study](docs/SHOWCASE_VANGUARD_HIVE.md)
+
+---
+
+## Limitations
+
+- Validation checks structure, not truth. A schema can require a `price` field; it cannot tell whether the price is right.
+- Retries cost tokens. Keep schemas strict but realistic.
+- Steps run sequentially. There is no branching or parallel execution yet.
+- The dashboard is a minimal local tool, not a monitoring product.
+
+## Development
+
+```bash
+npm install
+npm run typecheck
+npm test
+npm run build
+```
+
+Tests cover the pipeline engine (ordering, context selection, schema retries, metadata) with a scripted fake provider, so no API key is needed.
+
+## Docs
+
+- [Getting started](docs/getting-started.md)
+- [Architecture](docs/architecture.md)
+- [Backend-owned metadata](docs/concepts/zero-hallucination.md)
+- [Running cheap pipelines with DeepSeek](docs/concepts/deepseek-factory.md)
+
+## License
+
+MIT. Designed by [Fran Barbero](https://www.vanguardhive.com).
